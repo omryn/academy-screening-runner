@@ -13,6 +13,10 @@ function getSpec() {
   return 'this is the spec: player 1 is X, player 2 is O. Output cell played (1-9) and game state [win, tie, play]. go ahead...'
 }
 
+function getNumOfPlayers() {
+  return 2
+}
+
 function getInitBoard() {
   return 'B#########'
 }
@@ -52,6 +56,7 @@ function verifyMove(stdin, stdout, player) {
 
 module.exports = {
   getSpec: getSpec,
+  getNumOfPlayers: getNumOfPlayers,
   getPlayer: getPlayer,
   getInitBoard: getInitBoard,
   verifyMove: verifyMove

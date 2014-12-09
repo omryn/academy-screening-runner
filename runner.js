@@ -6,16 +6,15 @@ var gameModule1 = require('./ttt.js')
 
 console.log(gameModule1.getSpec())
 
-var player = gameModule1.getPlayer()
+var numOfPlayers = gameModule1.getNumOfPlayers()
+var players = Array.apply(null, {length: numOfPlayers}).map(gameModule1.getPlayer) //TODO: get from...
 
-function runPlayer(input) {
 
+function runPlayer(input, turn) {
   var deferred = Q.defer();
-  var play = exec(player + ' ' + input, function(error, stdout, stderr) {
-    if (error !== null) {
-      deferred.reject(new Error(error))
-    } else if (stderr) {
-      deferred.reject(new Error(stderr))
+  var play = exec(players[turn] + ' ' + input, function(error, stdout, stderr) {
+    if (error || stderr) {
+      deferred.reject(new Error(error || stderr))
     } else {
       deferred.resolve(stdout);
     }
@@ -27,8 +26,8 @@ function runPlayer(input) {
   return deferred.promise;
 }
 
-function move(input) {
-  return runPlayer(input)
+function move(input, turn) {
+  return runPlayer(input, turn)
     .then(function(output) {
       var res = gameModule1.verifyMove(input, output)
       console.log(res)
@@ -36,19 +35,22 @@ function move(input) {
     })
 }
 
-function game(board) {
-  return move(board)
+function game(board, turn) {
+  return move(board, turn)
     .then(function(res) {
       if (res.status === 'win') {
-        console.log('game over: ' + res.board)
+        console.log('game over with win for player ' + turn + ': ' + res.board)
+        return { winner: turn }
       } else if (res.status === 'tie') {
         console.log('game over: ' + res.board)
+        return { winner: null }
       } else {
-        return game(res.board)
+        return game(res.board, (turn + 1) % numOfPlayers)
       }
     })
 }
 
-game(gameModule1.getInitBoard())
+
+game(gameModule1.getInitBoard(), 0)
   .then(console.log.bind(console))
   .catch(function(e) {console.log('caught error: ' + e)})
