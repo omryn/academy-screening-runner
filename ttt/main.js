@@ -22,7 +22,7 @@ function getInitBoard() {
 }
 
 function getPlayer() {
-  return __dirname + '/tttPlayer.js'
+  return __dirname + '/player.js'
 }
 
 function verifyMove(stdin, stdout, player) {

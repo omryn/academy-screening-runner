@@ -2,7 +2,7 @@
 
 var Q = require('q')
 var exec = require('child_process').exec
-var gameModule1 = require('./ttt.js')
+var gameModule1 = require('./ttt/main.js')
 
 console.log(gameModule1.getSpec())
 
