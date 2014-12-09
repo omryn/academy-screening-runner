@@ -9,3 +9,5 @@ boardArray[board.indexOf('#')] = player
 board = boardArray.join('')
 
 console.log(board)
+
+// setTimeout(function(){}, 2000)

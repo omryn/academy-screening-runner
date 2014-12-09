@@ -19,10 +19,11 @@ function runPlayer(input) {
     } else {
       deferred.resolve(stdout);
     }
-    // console.log('stdout: ' + stdout)
-    // console.log('stderr: ' + stderr)
   })
-  // play.kill('SIGHUP')
+  setTimeout(function() {
+    play.kill('SIGHUP')
+    deferred.reject(new Error('play took too much time'))
+  }, 1000)
   return deferred.promise;
 }
 
@@ -46,4 +47,4 @@ Q(gameModule1.getInitBoard())
   .then(move)
   .then(move)
   .then(console.log.bind(console))
-  .catch(function(e) {console.log(e)})
+  .catch(function(e) {console.log('caught error: ' + e)})
