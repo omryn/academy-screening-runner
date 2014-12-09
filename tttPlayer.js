@@ -5,7 +5,8 @@ var board = process.argv[2]
 var player = board.replace(/[BXO]/g,'').length%2 ? 'X' : 'O'
 
 var boardArray = board.split('')
-boardArray[board.indexOf('#')] = player
+var play = board.indexOf('#')
+boardArray[play] = player
 
 var winningDiag = [[1,5,9], [3,5,7]]
 var winningRows = [1,4,7].map(function(i){return [i, i+1, i+2]})
@@ -18,8 +19,10 @@ var win = winnings.some(function(line) {
 
 var tie = boardArray.indexOf('#') === -1
 
-console.log(boardArray.join(''))
-console.log(tie ? 'tie' : (win ? 'win' : 'play'))
+var status = tie ? 'tie' : (win ? 'win' : 'play')
+
+console.log(play)
+console.log(status)
 
 
 // setTimeout(function(){}, 2000)

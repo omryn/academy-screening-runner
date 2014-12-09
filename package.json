@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node ./runner.js"
+  },
   "dependencies": {
     "q": "^1.1.2"
   }
