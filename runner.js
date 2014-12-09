@@ -36,15 +36,19 @@ function move(input) {
     })
 }
 
-Q(gameModule1.getInitBoard())
-  .then(move)
-  .then(move)
-  .then(move)
-  .then(move)
-  .then(move)
-  .then(move)
-  .then(move)
-  .then(move)
-  .then(move)
+function game(board) {
+  return move(board)
+    .then(function(res) {
+      if (res.status === 'win') {
+        console.log('game over: ' + res.board)
+      } else if (res.status === 'tie') {
+        console.log('game over: ' + res.board)
+      } else {
+        return game(res.board)
+      }
+    })
+}
+
+game(gameModule1.getInitBoard())
   .then(console.log.bind(console))
   .catch(function(e) {console.log('caught error: ' + e)})

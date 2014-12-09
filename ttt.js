@@ -13,8 +13,15 @@ function getPlayer() {
 }
 
 function verifyMove(stdin, stdout, player) {
+  var output = stdout.split('\n')
+  var board = output[0]
+  var status = output[1]
+
   //TODO: varify move, calculate result, and return:
-  return stdout
+  return {
+    status: status,
+    board: board
+  }
 }
 
 
