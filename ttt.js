@@ -13,7 +13,8 @@ function getPlayer() {
 }
 
 function verifyMove(stdin, stdout, player) {
-
+  //TODO: varify move, calculate result, and return:
+  return stdout
 }
 
 

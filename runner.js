@@ -4,23 +4,19 @@ var Q = require('q')
 var exec = require('child_process').exec
 var gameModule1 = require('./ttt.js')
 
-
-
 console.log(gameModule1.getSpec())
 
 var player = gameModule1.getPlayer()
-var board = gameModule1.getInitBoard()
 
+function runPlayer(input) {
 
-function move() {
   var deferred = Q.defer();
-  var play = exec(player + ' ' + board, function(error, stdout, stderr) {
+  var play = exec(player + ' ' + input, function(error, stdout, stderr) {
     if (error !== null) {
       deferred.reject(new Error(error))
     } else if (stderr) {
       deferred.reject(new Error(stderr))
     } else {
-      board = stdout
       deferred.resolve(stdout);
     }
     // console.log('stdout: ' + stdout)
@@ -30,8 +26,24 @@ function move() {
   return deferred.promise;
 }
 
+function move(input) {
+  return runPlayer(input)
+    .then(function(output) {
+      var res = gameModule1.verifyMove(input, output)
+      console.log(res)
+      return res
+    })
+}
 
-move()
+Q(gameModule1.getInitBoard())
+  .then(move)
+  .then(move)
+  .then(move)
+  .then(move)
+  .then(move)
+  .then(move)
+  .then(move)
+  .then(move)
   .then(move)
   .then(console.log.bind(console))
   .catch(function(e) {console.log(e)})
