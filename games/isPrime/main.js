@@ -2,7 +2,7 @@
 
 
 function getRandNumber() {
-  return String(Math.floor(2 + Math.random() * 1000))
+  return String(Math.floor(2 + Math.random() * 10))
 }
 
 function isPrime1(n) {
@@ -12,11 +12,14 @@ function isPrime1(n) {
   return true;
 }
 
+var gameResult
+var scores = Array.apply(null, {length: getNumOfPlayers() }).map(function(){return 0})
+
 ////////////////////////
 
 
 function getSpec() {
-  return 'Return "true" if the number is prime, "false" otherwise.'
+  return 'Return "true" if the number is prime, "false" otherwise, until someone losses.'
 }
 
 function getNumOfPlayers() {
@@ -37,15 +40,27 @@ function verifyMove(stdin, stdout, player) {
   var answer = output[0]
 
   var prime = isPrime1(number)
+
   var status = (String(prime) === answer) ? 'win' : 'lose'
+  if (status === 'win') {
+    scores[player] = (scores[player] || 0) + 1
+  }
+  if (status === 'lose') {
+    gameResult = {
+      scores: scores
+    }
+  }
+
+  var valid = true
 
   //TODO: varify move, calculate result, and return:
 
   return {
     prevBoard: stdin,
     move: answer,
-    status: status,
-    board: getRandNumber()
+    valid: valid,
+    board: getRandNumber(),
+    gameResult: gameResult
   }
 }
 

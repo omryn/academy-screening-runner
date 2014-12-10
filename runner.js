@@ -41,7 +41,7 @@ function runPlayer(input, turn) {
 function move(input, turn) {
   return runPlayer(input, turn)
     .then(function(output) {
-      var res = gameModule1.verifyMove(input, output)
+      var res = gameModule1.verifyMove(input, output, turn)
       console.log(res)
       return res
     })
@@ -50,12 +50,9 @@ function move(input, turn) {
 function game(board, turn) {
   return move(board, turn)
     .then(function(res) {
-      if (res.status === 'win') {
-        console.log('game over with win for player ' + turn + '.')
-        return { winner: turn }
-      } else if (res.status === 'tie') {
-        console.log('game over: ' + res.board)
-        return { winner: null }
+      if (res.gameResult) {
+        console.log('game over.')
+        return res.gameResult
       } else {
         return game(res.board, (turn + 1) % numOfPlayers)
       }

@@ -17,6 +17,9 @@ function getNumOfPlayers() {
   return 2
 }
 
+var gameResult
+var scores = [0,0]
+
 function getInitBoard() {
   return 'B#########'
 }
@@ -30,23 +33,32 @@ function verifyMove(stdin, stdout, player) {
   var play = output[0]
   var status = output[1]
 
-  player = stdin.replace(/[BXO]/g,'').length%2 ? 'X' : 'O' //TODO: should get player from runner
+  var playerSign = stdin.replace(/[BXO]/g,'').length%2 ? 'X' : 'O' //TODO: should get player from runner
   var boardArray = stdin.split('')
-  boardArray[play] = player
+  boardArray[play] = playerSign
 
   var win = winnings.some(function(line) {
-    return !line.some(function(index){ return boardArray[index] !== player; })
+    return !line.some(function(index){ return boardArray[index] !== playerSign; })
   })
   var tie = boardArray.indexOf('#') === -1
 
   var correctStatus = tie ? 'tie' : (win ? 'win' : 'play')
-
-  //TODO: varify move, calculate result, and return:
+  if (status !== 'play') {
+    if (status === 'win') scores[player] = 3
+    else if (status === 'tie') scores = scores.map(function() {return 1})
+    gameResult = {
+      scores: scores
+    }
+  }
 
   return {
-    status: status,
-    board: boardArray.join('')
+    prevBoard: stdin,
+    move: play,
+    valid: true, //TODO: varify move
+    board: boardArray.join(''),
+    gameResult: gameResult
   }
+
 }
 
 
