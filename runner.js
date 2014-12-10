@@ -11,20 +11,9 @@ function getGame(name) {
   return gameModule
 }
 
-
-// var gameModule1 = getGame('ttt')
-// var gameModule1 = getGame('guessNextNumber')
-var gameModule1 = getGame('isPrime')
-
-console.log(gameModule1.getSpec())
-
-var numOfPlayers = gameModule1.getNumOfPlayers()
-var players = Array.apply(null, {length: numOfPlayers}).map(gameModule1.getPlayer) //TODO: get from...
-
-
-function runPlayer(input, turn) {
+function runPlayer(input, player) {
   var deferred = Q.defer();
-  var play = exec(players[turn] + ' ' + input, function(error, stdout, stderr) {
+  var play = exec(player + ' ' + input, function(error, stdout, stderr) {
     if (error || stderr) {
       deferred.reject(new Error(error || stderr))
     } else {
@@ -38,28 +27,41 @@ function runPlayer(input, turn) {
   return deferred.promise;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+// var gameModule = getGame('ttt')
+// var gameModule = getGame('guessNextNumber')
+var gameModule = getGame('isPrime')
+
+var numOfPlayers = gameModule.getNumOfPlayers()
+var players = Array.apply(null, {length: numOfPlayers}).map(gameModule.getPlayer) //TODO: get from...
+
+
 function move(input, turn) {
-  return runPlayer(input, turn)
+  var playerId = turn % numOfPlayers
+  return runPlayer(input, players[playerId])
     .then(function(output) {
-      var res = gameModule1.verifyMove(input, output, turn)
+      var res = gameModule.verifyMove(input, output, playerId)
       console.log(res)
       return res
     })
 }
 
 function game(board, turn) {
+  if (turn === 0) console.log(gameModule.getSpec())
   return move(board, turn)
     .then(function(res) {
       if (res.gameResult) {
         console.log('game over.')
         return res.gameResult
       } else {
-        return game(res.board, (turn + 1) % numOfPlayers)
+        return game(res.board, turn + 1)
       }
     })
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
-game(gameModule1.getInitBoard(), 0)
+game(gameModule.getInitBoard(), 0)
   .then(console.log.bind(console))
   .catch(function(e) {console.log('caught error: ' + e)})
