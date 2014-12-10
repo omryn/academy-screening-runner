@@ -23,7 +23,7 @@ function getNumOfPlayers() {
 }
 
 var gameResult
-var scores = [0,0]
+var scores = [2,2]
 
 function getInitBoard() {
   return 'B#########'
@@ -48,18 +48,24 @@ function verifyMove(stdin, stdout, player) {
   var tie = boardArray.indexOf('#') === -1
 
   var correctStatus = tie ? 'tie' : (win ? 'win' : 'play')
-  if (status !== 'play') {
-    if (status === 'win') scores[player] = 3
-    else if (status === 'tie') scores = scores.map(function() {return 1})
+
+  if (win || tie) {
+    if (win) {
+      scores[player]++ //3
+      scores[1 - player]-- //1
+    }
     gameResult = {
       scores: scores
     }
   }
 
+  var statusValid = status === correctStatus
+  var moveValid = true //TODO: varify move
+
   return {
     prevBoard: stdin,
     move: play,
-    valid: true, //TODO: varify move
+    valid: statusValid && moveValid,
     board: boardArray.join(''),
     gameResult: gameResult
   }

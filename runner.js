@@ -56,7 +56,9 @@ function game(board, turn) {
   if (turn === 0) console.log(gameModule.getSpec())
   return move(board, turn)
     .then(function(res) {
-      if (res.gameResult) {
+      if (!res.valid) {
+        console.log('move by player ' + (turn % numOfPlayers) + ' is not valid!!') //TODO
+      } else if (res.gameResult) {
         console.log('game over.')
         return res.gameResult
       } else {
