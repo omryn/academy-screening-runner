@@ -29,9 +29,14 @@ function runPlayer(input, player) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// var gameModule = getGame('ttt')
-var gameModule = getGame('guessNextNumber')
-// var gameModule = getGame('isPrime')
+var games = ['ttt', 'guessNextNumber', 'isPrime']
+var gameName = process.argv[2] || games[0]
+
+try {
+  var gameModule = getGame(gameName)
+} catch(e) {
+  throw new Error('no such game: ' + gameName)
+}
 
 var numOfPlayers = gameModule.getNumOfPlayers()
 var players = Array.apply(null, {length: numOfPlayers}).map(gameModule.getPlayer) //TODO: get from...

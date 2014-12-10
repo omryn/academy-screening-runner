@@ -1,5 +1,18 @@
 
-## Game modules API
+# Game modules API
+
+## Current usage
+
+```bash
+npm start
+# Or:
+node runner.js ttt
+node runner.js guessNextNumber
+node runner.js isPrime
+#...
+```
+
+## Games
 
 Each game module (currently) is located at /games/GAMENAME/main.js and exposes these methods:
 
