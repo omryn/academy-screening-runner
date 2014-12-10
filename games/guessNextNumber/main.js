@@ -2,7 +2,13 @@
 
 
 function getSpec() {
-  return 'Pick the number played in the previous turn plus one to win. Pick the exact same number to tie.'
+  return [
+    'Spec:',
+    'Pick the number played in the previous turn plus one to win.',
+    'Pick the exact same number to tie.',
+    'Input: previous number.',
+    'Output: your number.',
+    'made for ' + getNumOfPlayers() + ' players.\n'].join('\n')
 }
 
 function getNumOfPlayers() {

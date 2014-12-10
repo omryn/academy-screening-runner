@@ -9,6 +9,6 @@ function isPrime1(n) {
 
 var board = process.argv[2]
 var number = parseInt(board, 10)
-var play = (Math.random() < 0.1) ? isPrime1(number) : number%2 != 0
+var play = (Math.random() > 0.2) ? isPrime1(number) : number%2 != 0
 
 console.log(play)

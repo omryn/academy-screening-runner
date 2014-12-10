@@ -17,9 +17,14 @@ var scores = Array.apply(null, {length: getNumOfPlayers() }).map(function(){retu
 
 ////////////////////////
 
-
 function getSpec() {
-  return 'Return "true" if the number is prime, "false" otherwise, until someone losses.'
+  return [
+    'Spec:',
+    'Check if the number is prime or not, until someone gets it wrong.',
+    'A correct answer is worth a point, an incorrect one costs 8 points',
+    'Input: a number',
+    'Output: "true" or "false"',
+    'made for ' + getNumOfPlayers() + ' players.\n'].join('\n')
 }
 
 function getNumOfPlayers() {
@@ -41,11 +46,11 @@ function verifyMove(stdin, stdout, player) {
 
   var prime = isPrime1(number)
 
-  var status = (String(prime) === answer) ? 'win' : 'lose'
-  if (status === 'win') {
+
+  if (String(prime) === answer) {
     scores[player] = (scores[player] || 0) + 1
-  }
-  if (status === 'lose') {
+  } else {
+    scores[player] = Math.max(0, scores[player] - 8)
     gameResult = {
       scores: scores
     }

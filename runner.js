@@ -30,8 +30,8 @@ function runPlayer(input, player) {
 ////////////////////////////////////////////////////////////////////////////////
 
 // var gameModule = getGame('ttt')
-// var gameModule = getGame('guessNextNumber')
-var gameModule = getGame('isPrime')
+var gameModule = getGame('guessNextNumber')
+// var gameModule = getGame('isPrime')
 
 var numOfPlayers = gameModule.getNumOfPlayers()
 var players = Array.apply(null, {length: numOfPlayers}).map(gameModule.getPlayer) //TODO: get from...

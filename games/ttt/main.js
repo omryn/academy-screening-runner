@@ -10,7 +10,12 @@ var winnings = (function(){
 })()
 
 function getSpec() {
-  return 'this is the spec: player 1 is X, player 2 is O. Output cell played (1-9) and game state [win, tie, play]. go ahead...'
+  return [
+    'Spec:',
+    'Player 1 is X, player 2 is O.',
+    'Input: board in format B#########.',
+    'Output: cell played (1-9) and game state [win, tie, play].',
+    'made for ' + getNumOfPlayers() + ' players.\n'].join('\n')
 }
 
 function getNumOfPlayers() {
