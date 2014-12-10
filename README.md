@@ -4,6 +4,7 @@
 ## Current usage
 
 ```bash
+npm i
 npm start
 # Or:
 node runner.js ttt
