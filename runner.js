@@ -29,8 +29,8 @@ function runPlayer(input, player) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-var games = ['ttt', 'guessNextNumber', 'isPrime']
-var gameName = process.argv[2] || games[0]
+var games = require('fs').readdirSync('games')
+var gameName = process.argv[2] || 'ttt'
 
 try {
   var gameModule = getGame(gameName)
