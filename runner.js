@@ -9,7 +9,7 @@ function getGame(name) {
 
 
 // var gameModule1 = getGame('ttt')
-// var gameModule1 = getGame('g1')
+// var gameModule1 = getGame('guessNextNumber')
 var gameModule1 = getGame('isPrime')
 
 console.log(gameModule1.getSpec())
