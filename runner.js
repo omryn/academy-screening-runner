@@ -4,7 +4,11 @@ var Q = require('q')
 var exec = require('child_process').exec
 
 function getGame(name) {
-  return require('./games/' + name + '/main.js')
+  var gameModule = require('./games/' + name + '/main.js')
+  var requiredMethods = ['getSpec', 'getNumOfPlayers', 'getPlayer', 'getInitBoard', 'verifyMove']
+  var missingMethods = requiredMethods.filter(function(method) { return !gameModule[method] })
+  if (missingMethods.length) throw new Error('Game module ""' + name + '"" is missing: ' + JSON.stringify(missingMethods))
+  return gameModule
 }
 
 
