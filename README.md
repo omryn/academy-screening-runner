@@ -7,13 +7,20 @@ Each game module (currently) is located at /games/GAMENAME/main.js and exposes t
 
 returns the game spec as a string.
 
+* What format should this be in?
+* Should it return the content or its location?
+
 ###getNumOfPlayers
 
 returns the exact amount of players needed for the game.
 
+* Should games be playable with a variable number of players?
+
 ###getPlayer
 
 returns the path to an executable file that is a game player.
+
+* This should be modified to return several different players, mainly for testing.
 
 ###getInitBoard
 
@@ -21,7 +28,7 @@ returns the initial board to be used by the first player.
 
 ###verifyMove
 
-receives a players id, input and output, and returns an object that analyzes the move:
+receives a players id, input and output, and returns an object that analyses the move:
 
 ```js
 function verifyMove(
