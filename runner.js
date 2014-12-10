@@ -9,7 +9,8 @@ function getGame(name) {
 
 
 // var gameModule1 = getGame('ttt')
-var gameModule1 = getGame('g1')
+// var gameModule1 = getGame('g1')
+var gameModule1 = getGame('isPrime')
 
 console.log(gameModule1.getSpec())
 
@@ -46,7 +47,7 @@ function game(board, turn) {
   return move(board, turn)
     .then(function(res) {
       if (res.status === 'win') {
-        console.log('game over with win for player ' + turn + ': ' + res.board)
+        console.log('game over with win for player ' + turn + '.')
         return { winner: turn }
       } else if (res.status === 'tie') {
         console.log('game over: ' + res.board)
