@@ -1,0 +1,209 @@
+FORMAT: 1A
+
+# Runner
+Runner API is used to run and get results of a single game
+
+## index GET [/]
++ Response 200
+    + Body
+        {
+            "_links": {
+                "status": {
+                    "is-alive
+                },
+                "modules": {
+                    "href": "/status/game-modules/",
+                },
+                "games": {
+                    "href": "/status/games/",
+                }
+            }
+        }
+
+# Status
+## get runner status GET [/status]
++ Response 200
+    + Body
+        {  
+            "uptime": 15645,
+            "games": {
+                "running": 1,
+                "done": 32
+            },
+            "modules": ["Tic Tac Toe", "Submerines"],
+            "_links": {
+                "modules": {
+                    "href": "/status/modules/",
+                },
+                "games": {
+                    "href": "/status/games/",
+                }
+            }
+        }
+
+## Available game modules GET [/status/modules]
++ Response 200
+    + Body
+        {
+            "modules": [
+                {
+                    "title": "Tic Tac Toe",
+                    "module-id": "tic-tac-toe",
+                    "players": 2,
+                    "_links": {
+                        "instructions": {
+                            "href": "http://ttt.instructions.com"
+                        }
+                    }
+                }
+            ],
+            "_links": {
+                    "games": { "href": "/status/games/" }
+            }
+        }
+
+# Group Games
+## games [/games]
+### get games list [GET]
++ Response 200
+    + Body
+        {
+            "games": [
+                { 
+                    "game-id": "TTT128964"
+                    "players": ["player1", "player2"],
+                    "module-id": "tic-tac-toe",
+                    "status": "running",
+                    "duration": 5437
+                    "_links": {
+                        "game-status": { "href": "/games/TTT128964"}
+                    }
+                },
+                { 
+                    "game-id": "TTT333"
+                    "players": ["player1", "player2"],
+                    "module-id": "tic-tac-toe",
+                    "status": "done",
+                    "duration": 5437
+                    "_links": {
+                        "game-status": { "href": "/games/TTT333"}
+                    }
+                },
+            ]
+        }
+
+### create a new game [POST]
++ Request
+    + Body
+        {
+            "players": [
+                {
+                    "player-id": "david_m43797",
+                    "agent": { "href": "http://player.agent.endpoint.com" }
+                },
+                {
+                    "player-id": "shuka_d4",
+                    "agent": { "href": "http://otherplayer.agent.endpoint.com" }
+                }
+            ],
+            "module-id": "tic-tac-toe"
+        }
+
++ Response
+    + Body
+        {
+            "game-id": "hfjdkkgh",
+            "_links": {
+                "game-status": { "href": "/games/tic-tac-toe/hfjdkkgh" }
+            }
+        }
+
+## games [/games/{module-id}/{game-id}]
+### get game status, sorted by players order [GET]
++ Response 200
+    + Body
+        {
+            "game-id": "jgshjsa3",
+            "module-id": "tic-tac-toe",
+            "status": "done",
+            "start-time": "Wed Dec 17 2014 17:53:12 GMT+0200 (IST)",
+            "duration": 647823,
+            "players": [
+                {
+                    "player-id": "david_m43797",
+                    "agent": { "href": "http://player.agent.endpoint.com" }
+                },
+                {
+                    "player-id": "shuka_d4",
+                    "agent": { "href": "http://otherplayer.agent.endpoint.com" }
+                }
+            ],
+            "scores" : [
+                {
+                    "player": "http://player.agent.endpoint.com",
+                    "score": 5
+                },
+                {
+                    "player":"http://otherplayer.agent.endpoint.com"
+                    "score" 3
+                }
+            ],
+            "moves": [
+                {
+                    "board": "*********"
+                    "player": "http://player.agent.endpoint.com"
+                    "input":  "*********"
+                    "output" "X******"
+                }
+            ],
+            "_links": {
+                "modules": {
+                    "href": "/status/modules/",
+                },
+                "games": {
+                    "href": "/status/games/",
+                }
+            }
+        }
+    
++ Response 404
+    + Body
+        {
+            "error": "No such game",
+            "game-id": "dgfsd"
+        }
+    
++ Response 503
+    + Body
+        {
+            "error": "Unable to retrive game details",
+            "details": "error ...",
+            "stack": "",
+            "error-code": 23,
+            "game-id": "dgfsd"
+        }    
+    
+### stop a running game [DELETE]
++ Response 204
+    + Body
+        {
+            "game-id": "dgfsd",
+            "status": "deleted"
+        }
+
++ Response 404
+    + Body   
+        {
+            "error": "No such game",
+            "game-id": "dgfsd"
+        }
+
++ Response 503
+    + Body   
+        {
+            "error": "Unable to kill a running game",
+            "details": "error ...",
+            "stack": "",
+            "error-code": 73,
+            "game-id": "dgfsd"
+        }
